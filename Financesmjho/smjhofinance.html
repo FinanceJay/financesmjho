@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Finance Made Simple – Interactive Guide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #0b1120;
+      --card: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56,189,248,0.16);
+      --accent-2: #22c55e;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --radius-lg: 16px;
+      --shadow-soft: 0 18px 40px rgba(15,23,42,0.9);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 45%, #020617 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .app {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 12px 40px;
+    }
+
+    header {
+      position: sticky;
+      top: 10px;
+      z-index: 20;
+      margin-bottom: 18px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.94);
+      border: 1px solid rgba(148,163,184,0.25);
+      backdrop-filter: blur(14px);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #38bdf8, #0ea5e9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 0 30px rgba(56,189,248,0.9);
+    }
+
+    .logo-text {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 14px;
+    }
+
+    nav {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      flex-wrap: wrap;
+    }
+
+    nav button {
+      border-radius: 999px;
+      border: none;
+      padding: 5px 10px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    nav button.active,
+    nav button:hover {
+      background: rgba(148,163,184,0.18);
+      color: var(--text);
+    }
+
+    .btn-small {
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 11px;
+      border: 1px solid rgba(56,189,248,0.6);
+      background: radial-gradient(circle at 0 0, rgba(56,189,248,0.35), #020617);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero {
+      margin: 18px 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 22px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 880px) {
+      nav { display: none; }
+      .hero { grid-template-columns: minmax(0,1fr); }
+      header { justify-content: space-between; }
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px 4px 4px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.3);
+      background: rgba(15,23,42,0.9);
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .eyebrow-pill {
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: linear-gradient(to right, rgba(56,189,248,0.3), rgba(34,197,94,0.3));
+      color: #e0f2fe;
+      font-weight: 600;
+    }
+
+    h1 {
+      font-size: clamp(30px, 4vw, 42px);
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    h1 span {
+      background: linear-gradient(to right, #38bdf8, #22c55e, #a855f7);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 14px;
+    }
+
+    .search-row {
+      margin-bottom: 12px;
+    }
+
+    .search-input {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(51,65,85,0.9);
+      background: rgba(15,23,42,0.96);
+      color: var(--text);
+      font-size: 13px;
+      padding: 8px 12px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: rgba(56,189,248,0.9);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.7);
+    }
+
+    .search-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 11px;
+      background: rgba(15,23,42,0.9);
+      border: 1px dashed rgba(148,163,184,0.4);
+      color: var(--muted);
+    }
+
+    /* Right hero card */
+    .card {
+      border-radius: 20px;
+      padding: 14px;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.16), #020617);
+      border: 1px solid rgba(148,163,184,0.35);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -50%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.15), transparent 55%),
+        radial-gradient(circle at 100% 0, rgba(34,197,94,0.14), transparent 55%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .card-inner { position: relative; z-index: 1; }
+
+    .card-title {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .concept-box {
+      border-radius: 14px;
+      padding: 10px;
+      background: rgba(15,23,42,0.92);
+      border: 1px solid rgba(148,163,184,0.45);
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .concept-title-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: rgba(34,197,94,0.12);
+      color: #bbf7d0;
+      font-size: 10px;
+    }
+
+    .concept-def {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .infographic-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .infographic-item {
+      border-radius: 10px;
+      padding: 6px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(30,64,175,0.8);
+      font-size: 10px;
+    }
+
+    .infographic-label {
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .infographic-num {
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* Main content layout */
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.6fr);
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: minmax(0,1fr); }
+    }
+
+    .list-panel,
+    .detail-panel {
+      border-radius: 18px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.8);
+      padding: 12px 12px 14px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .panel-title {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .panel-sub {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .concept-list {
+      margin-top: 6px;
+      max-height: 460px;
+      overflow: auto;
+      padding-right: 3px;
+    }
+
+    .list-item {
+      border-radius: 12px;
+      padding: 8px 9px;
+      border: 1px solid rgba(31,41,55,0.9);
+      background: rgba(15,23,42,0.96);
+      font-size: 12px;
+      cursor: pointer;
+      margin-bottom: 6px;
+      transition: 0.15s;
+    }
+
+    .list-item:hover {
+      border-color: rgba(56,189,248,0.8);
+    }
+
+    .list-item.active {
+      border-color: rgba(56,189,248,1);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.8);
+    }
+
+    .list-title-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+
+    .list-title {
+      font-weight: 500;
+    }
+
+    .list-category {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .list-summary {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .list-tags {
+      margin-top: 4px;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .tag-chip {
+      border-radius: 999px;
+      padding: 1px 6px;
+      background: rgba(15,23,42,1);
+      border: 1px dashed rgba(75,85,99,0.8);
+      margin-right: 4px;
+    }
+
+    .detail-body {
+      font-size: 13px;
+      color: var(--text);
+      max-height: 460px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .detail-body h2 {
+      font-size: 15px;
+      margin: 4px 0 4px;
+    }
+
+    .detail-body h3 {
+      font-size: 13px;
+      margin: 6px 0 4px;
+    }
+
+    .detail-body p {
+      margin-bottom: 6px;
+      color: var(--muted);
+    }
+
+    .detail-body ul {
+      margin-left: 18px;
+      margin-bottom: 6px;
+      color: var(--muted);
+    }
+
+    .badge-inline {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 7px;
+      background: var(--accent-soft);
+      color: #e0f2fe;
+      font-size: 10px;
+      margin-bottom: 6px;
+    }
+
+    footer {
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(31,41,55,0.9);
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="logo">
+        <div class="logo-mark">₹</div>
+        <div class="logo-text">Finance Made Simple</div>
+      </div>
+      <nav id="categoryNav">
+        <!-- buttons injected by JS -->
+      </nav>
+      <div class="btn-small">
+        Learn finance <span>→</span>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">
+          <span class="eyebrow-pill">Interactive</span>
+          Click any concept to see a simple explanation.
+        </div>
+        <h1>
+          A dynamic guide to <span>money, markets & valuation</span>.
+        </h1>
+        <p class="hero-sub">
+          All the essential finance concepts organised by topic, written in plain language with examples you can relate to.
+        </p>
+        <div class="search-row">
+          <input
+            id="searchInput"
+            class="search-input"
+            placeholder="Search a concept: money, SIP, DCF, inflation..."
+          />
+        </div>
+        <p id="searchHint" class="search-hint">
+          🔎 Type a term above or click a category to filter the concepts.
+        </p>
+        <div class="pill-row">
+          <div class="pill">Foundations: money, time value, risk</div>
+          <div class="pill">Personal finance: loans, insurance, retirement</div>
+          <div class="pill">Investing & markets: stocks, SIP, DCF</div>
+        </div>
+      </div>
+
+      <aside class="card">
+        <div class="card-inner">
+          <div class="card-title">How this site works</div>
+          <div class="concept-box">
+            <div class="concept-title-line">
+              <span>1. Pick a category</span>
+              <span class="badge">Browse</span>
+            </div>
+            <p class="concept-def">
+              Use the category buttons at the top (Basics, Personal, Investing…) to see a focused list of concepts.
+            </p>
+          </div>
+          <div class="concept-box">
+            <div class="concept-title-line">
+              <span>2. Click a concept</span>
+              <span class="badge">Explain</span>
+            </div>
+            <p class="concept-def">
+              The explanation panel on the right shows: definition, why it matters, a simple example, and related ideas.
+            </p>
+          </div>
+          <div class="concept-box">
+            <div class="concept-title-line">
+              <span>3. Use the search bar</span>
+              <span class="badge">Find fast</span>
+            </div>
+            <p class="concept-def">
+              Type any word like "loan", "discount", or "valuation" and matching concepts will be highlighted and counted.
+            </p>
+            <div class="infographic-grid">
+              <div class="infographic-item">
+                <div class="infographic-label">Concepts</div>
+                <div class="infographic-num" id="statConcepts">0</div>
+                <div class="infographic-label">Total explained</div>
+              </div>
+              <div class="infographic-item">
+                <div class="infographic-label">Categories</div>
+                <div class="infographic-num" id="statCategories">0</div>
+                <div class="infographic-label">Main sections</div>
+              </div>
+              <div class="infographic-item">
+                <div class="infographic-label">Focus</div>
+                <div class="infographic-num">Clarity</div>
+                <div class="infographic-label">Plain language, Indian context.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="layout">
+      <div class="list-panel">
+        <div class="panel-header">
+          <div class="panel-title">Concepts</div>
+          <div class="panel-sub" id="listSub">Showing all concepts.</div>
+        </div>
+        <div id="conceptList" class="concept-list">
+          <!-- list items injected by JS -->
+        </div>
+      </div>
+
+      <div class="detail-panel">
+        <div class="panel-header">
+          <div class="panel-title" id="detailTitle">Start by choosing a concept →</div>
+          <div class="panel-sub" id="detailCategory"></div>
+        </div>
+        <div id="detailBody" class="detail-body">
+          <p>
+            Pick any concept from the left list to see:
+          </p>
+          <ul>
+            <li>A simple definition</li>
+            <li>Why it matters in real life</li>
+            <li>Easy-to-follow examples</li>
+            <li>Formulas (only when helpful)</li>
+            <li>Related concepts to explore next</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="year"></span> Finance Made Simple. Educational only, not investment advice.</div>
+      <div>You can add more concepts any time by editing the concepts list in the code.</div>
+    </footer>
+  </div>
+
+  <script>
+    // ========= DATA: ALL CONCEPTS =========
+    const concepts = [
+      {
+        id: "what-is-money",
+        title: "What is Money?",
+        category: "Foundations",
+        level: "Beginner",
+        tags: ["basics", "currency", "purchasing power"],
+        summary: "What money really is, why we use it, and the three key roles it plays.",
+        body: `
+          <span class="badge-inline">Foundations · Beginner</span>
+          <h2>Simple definition</h2>
+          <p>Money is anything that people widely accept as a way to pay for goods and services and to settle debts.</p>
+          <h3>Why it matters</h3>
+          <p>Without money, we would have to do direct exchange (barter): "I give you rice, you fix my bike." That is messy and inefficient. Money simplifies trade, saving and investing.</p>
+          <h3>The 3 roles of money</h3>
+          <ul>
+            <li><strong>Medium of exchange</strong> – you use it to buy things.</li>
+            <li><strong>Unit of account</strong> – prices, profits and costs are measured in it.</li>
+            <li><strong>Store of value</strong> – you can hold it now and use later (as long as inflation is not too high).</li>
+          </ul>
+          <h3>Example</h3>
+          <p>Your salary of ₹50,000 a month can be used to pay rent, buy groceries, invest in mutual funds and save for emergencies. Money connects all these activities.</p>
+          <h3>Related concepts</h3>
+          <p>Inflation · Currency · Purchasing power · Savings</p>
+        `
+      },
+      {
+        id: "what-is-finance",
+        title: "What is Finance?",
+        category: "Foundations",
+        level: "Beginner",
+        tags: ["basics", "personal finance", "corporate"],
+        summary: "How people, companies and governments manage money over time.",
+        body: `
+          <span class="badge-inline">Foundations · Beginner</span>
+          <h2>Simple definition</h2>
+          <p>Finance is how people, businesses and governments manage money over time – how they get it, spend it, save it and invest it.</p>
+          <h3>Main branches of finance</h3>
+          <ul>
+            <li><strong>Personal finance</strong> – your income, spending, saving and investing decisions.</li>
+            <li><strong>Corporate finance</strong> – how companies raise and use money to run and grow their business.</li>
+            <li><strong>Public finance</strong> – how governments collect taxes, borrow and spend for public services.</li>
+          </ul>
+          <h3>Example</h3>
+          <p>You deciding between taking a loan or saving for 6 months is personal finance. A company issuing shares to build a new factory is corporate finance. The government setting a budget for roads or hospitals is public finance.</p>
+          <h3>Related concepts</h3>
+          <p>Budget · Investment · Risk · Return · Interest · Capital</p>
+        `
+      },
+      {
+        id: "time-value-of-money",
+        title: "Time Value of Money (TVM)",
+        category: "Foundations",
+        level: "Core",
+        tags: ["tvm", "discounting", "compounding"],
+        summary: "Why ₹1 today is worth more than ₹1 in the future.",
+        body: `
+          <span class="badge-inline">Foundations · Core</span>
+          <h2>Core idea</h2>
+          <p>A rupee today is worth more than the same rupee in the future because you can invest it and earn a return. This is called the time value of money.</p>
+          <h3>Key formulas</h3>
+          <p><strong>Future value (FV)</strong> of money after n periods:</p>
+          <p>FV = PV × (1 + r)<sup>n</sup></p>
+          <p><strong>Present value (PV)</strong> of future money today:</p>
+          <p>PV = FV ÷ (1 + r)<sup>n</sup></p>
+          <p>Where PV = present value, FV = future value, r = interest/return per period, n = number of periods.</p>
+          <h3>Example</h3>
+          <p>If you invest ₹10,000 at 10% per year for 3 years:</p>
+          <p>FV = 10,000 × (1.10)<sup>3</sup> ≈ ₹13,310</p>
+          <h3>Why it matters</h3>
+          <p>TVM is the base for discounting cash flows, valuing loans, EMIs, bonds and doing DCF valuation.</p>
+          <h3>Related concepts</h3>
+          <p>Discounting · Compounding · Interest · DCF · Inflation</p>
+        `
+      },
+      {
+        id: "simple-vs-compound-interest",
+        title: "Simple vs Compound Interest",
+        category: "Foundations",
+        level: "Beginner",
+        tags: ["interest", "loans", "savings"],
+        summary: "The difference between interest on principal only vs interest on interest.",
+        body: `
+          <span class="badge-inline">Foundations · Beginner</span>
+          <h2>Simple interest</h2>
+          <p>Interest is calculated only on the original amount (principal).</p>
+          <p>Simple interest = P × r × t</p>
+          <p>Where P = principal, r = interest rate per period, t = number of periods.</p>
+          <h2>Compound interest</h2>
+          <p>Interest is calculated on principal plus past interest. The amount grows faster.</p>
+          <p>Amount after t periods: A = P × (1 + r)<sup>t</sup></p>
+          <h3>Example</h3>
+          <p>₹10,000 at 10% for 3 years:</p>
+          <ul>
+            <li>Simple: interest = 10,000 × 0.10 × 3 = ₹3,000 ⇒ total = ₹13,000</li>
+            <li>Compound: A = 10,000 × (1.10)<sup>3</sup> ≈ ₹13,310</li>
+          </ul>
+          <h3>Why it matters</h3>
+          <p>Loans can hurt because interest often compounds. Investments help you because returns compound over time.</p>
+          <h3>Related concepts</h3>
+          <p>EMI · SIP · TVM · Loan amortisation</p>
+        `
+      },
+      {
+        id: "risk-vs-return",
+        title: "Risk vs Return",
+        category: "Foundations",
+        level: "Core",
+        tags: ["risk", "volatility", "investing"],
+        summary: "Higher potential return usually comes with higher risk.",
+        body: `
+          <span class="badge-inline">Foundations · Core</span>
+          <h2>Simple definitions</h2>
+          <ul>
+            <li><strong>Return</strong> – how much you gain or lose on an investment.</li>
+            <li><strong>Risk</strong> – how uncertain that return is.</li>
+          </ul>
+          <h3>Core rule</h3>
+          <p>Generally, investments that can give higher returns also come with higher risk of loss in the short term.</p>
+          <h3>Example</h3>
+          <ul>
+            <li>Savings account: low return, low risk.</li>
+            <li>Equity mutual fund: higher expected return over long term, but value can move up and down a lot each year.</li>
+          </ul>
+          <h3>Why it matters</h3>
+          <p>Your risk tolerance (how much ups and downs you can handle) should guide your choice of products. Diversification helps you manage risk.</p>
+          <h3>Related concepts</h3>
+          <p>Volatility · Diversification · Asset allocation · Beta</p>
+        `
+      },
+      {
+        id: "inflation",
+        title: "Inflation",
+        category: "Foundations",
+        level: "Beginner",
+        tags: ["prices", "purchasing power", "economy"],
+        summary: "General rise in prices over time that reduces the value of money.",
+        body: `
+          <span class="badge-inline">Foundations · Beginner</span>
+          <h2>Simple definition</h2>
+          <p>Inflation is the general rise in prices over time. It means the same amount of money buys fewer goods and services in the future.</p>
+          <h3>Example</h3>
+          <p>If inflation is 6% a year, something that costs ₹100 today may cost around ₹106 next year.</p>
+          <h3>Rule of 72 (rough estimate)</h3>
+          <p>Years for prices to double ≈ 72 ÷ inflation rate.</p>
+          <p>At 6% inflation, prices roughly double in about 12 years.</p>
+          <h3>Why it matters</h3>
+          <p>Your investments must beat inflation to truly grow your wealth in real terms.</p>
+          <h3>Related concepts</h3>
+          <p>Real vs nominal return · Interest rate · Central bank · TVM</p>
+        `
+      },
+      // PERSONAL FINANCE
+      {
+        id: "budgeting-emergency-fund",
+        title: "Budgeting & Emergency Fund",
+        category: "Personal Finance",
+        level: "Beginner",
+        tags: ["budget", "cash flow", "safety"],
+        summary: "Plan your income and expenses, and keep a cushion for surprises.",
+        body: `
+          <span class="badge-inline">Personal Finance · Beginner</span>
+          <h2>Budgeting</h2>
+          <p>A budget is a simple plan for how your income will be used for expenses, EMIs and savings in a month or year.</p>
+          <h3>Basic idea</h3>
+          <p>Income – fixed expenses – variable expenses – savings = surplus or deficit.</p>
+          <h2>Emergency fund</h2>
+          <p>An emergency fund is money kept aside for unexpected events like job loss, medical issues or urgent repairs.</p>
+          <p>Common target is about 3–6 months of essential expenses.</p>
+          <h3>Example</h3>
+          <p>If your essential monthly expenses are ₹30,000, then an emergency fund of ₹90,000–₹1,80,000 gives a basic safety cushion.</p>
+          <h3>Related concepts</h3>
+          <p>Cash flow · Saving rate · Risk management · Insurance</p>
+        `
+      },
+      {
+        id: "loans-emis-credit-cards",
+        title: "Loans, EMIs & Credit Cards",
+        category: "Personal Finance",
+        level: "Core",
+        tags: ["loans", "emi", "debt"],
+        summary: "How borrowing works and what EMIs and card interest really mean.",
+        body: `
+          <span class="badge-inline">Personal Finance · Core</span>
+          <h2>Loans & EMIs</h2>
+          <p>A loan is borrowed money you must repay with interest. EMIs (Equated Monthly Instalments) are fixed monthly payments that include both principal and interest.</p>
+          <p>At a high level, EMI depends on loan amount, interest rate and tenure.</p>
+          <h2>Credit cards</h2>
+          <p>A credit card is a short-term loan facility. If you pay the full bill on time, you usually avoid interest. If you pay only the minimum, very high interest is charged on the remaining amount.</p>
+          <h3>Practical tips</h3>
+          <ul>
+            <li>Try to keep total EMIs within 30–40% of your take-home income.</li>
+            <li>Always pay your credit card bill in full and on time to avoid a debt spiral.</li>
+          </ul>
+          <h3>Related concepts</h3>
+          <p>Interest rate · Credit score · Amortisation · Debt trap</p>
+        `
+      },
+      {
+        id: "insurance-basics",
+        title: "Insurance Basics",
+        category: "Personal Finance",
+        level: "Beginner",
+        tags: ["risk", "protection", "term insurance"],
+        summary: "Use insurance to protect yourself from big financial shocks.",
+        body: `
+          <span class="badge-inline">Personal Finance · Beginner</span>
+          <h2>Simple definition</h2>
+          <p>Insurance is a contract where you pay a regular amount (premium) to protect yourself from big, unexpected financial losses.</p>
+          <h3>Main types</h3>
+          <ul>
+            <li><strong>Term life insurance</strong> – pays your family if you die during the policy period.</li>
+            <li><strong>Health insurance</strong> – helps pay hospital and medical bills.</li>
+            <li><strong>Asset insurance</strong> – protects things like your car, house etc.</li>
+          </ul>
+          <h3>Why it matters</h3>
+          <p>Insurance does not make you rich. It stops you from becoming poor in the event of a serious accident or illness.</p>
+          <h3>Related concepts</h3>
+          <p>Premium · Sum assured · Nominee · Risk management</p>
+        `
+      },
+      {
+        id: "retirement-basics",
+        title: "Retirement Basics",
+        category: "Personal Finance",
+        level: "Core",
+        tags: ["retirement", "long term", "compounding"],
+        summary: "Build a corpus so you can live comfortably when you stop working.",
+        body: `
+          <span class="badge-inline">Personal Finance · Core</span>
+          <h2>Goal</h2>
+          <p>Retirement planning is about building a large enough corpus so that you can cover your living expenses when you are no longer earning a salary.</p>
+          <h3>Key ideas</h3>
+          <ul>
+            <li>Start early so that compounding works for longer.</li>
+            <li>Invest regularly through SIPs or retirement products.</li>
+            <li>Adjust for inflation – your future expenses will be higher than today.</li>
+          </ul>
+          <h3>Related concepts</h3>
+          <p>SIP · Compounding · Inflation · Annuity</p>
+        `
+      },
+      {
+        id: "tax-basics",
+        title: "Tax Basics (Conceptual)",
+        category: "Personal Finance",
+        level: "Beginner",
+        tags: ["tax", "income tax", "capital gains"],
+        summary: "Understand at a high level how taxes affect your net returns.",
+        body: `
+          <span class="badge-inline">Personal Finance · Beginner</span>
+          <h2>Simple idea</h2>
+          <p>Tax is money that individuals and businesses pay to the government on their income, profits or spending.</p>
+          <h3>Common types for individuals</h3>
+          <ul>
+            <li><strong>Income tax</strong> – on your salary or business income.</li>
+            <li><strong>Capital gains tax</strong> – on profits from selling investments.</li>
+            <li><strong>GST</strong> – an indirect tax included in the price of many goods and services.</li>
+          </ul>
+          <h3>Why it matters</h3>
+          <p>Taxes affect your net returns. Choosing the right products and holding period can help you manage tax impact while staying compliant.</p>
+          <h3>Related concepts</h3>
+          <p>Capital gains · Deductions · Exemptions</p>
+        `
+      },
+      // INVESTING
+      {
+        id: "equity-vs-debt",
+        title: "Shares, Debentures & Bonds",
+        category: "Investing",
+        level: "Core",
+        tags: ["equity", "bonds", "debentures"],
+        summary: "Difference between owning a company and lending to it.",
+        body: `
+          <span class="badge-inline">Investing · Core</span>
+          <h2>Equity (shares)</h2>
+          <p>When you buy shares, you become a part-owner of the company. Your return comes from price increase and dividends.</p>
+          <h2>Debt (bonds / debentures)</h2>
+          <p>When you buy a bond or debenture, you are lending money. You get fixed interest (coupon) and your principal back at maturity, if all goes well.</p>
+          <h3>Key differences</h3>
+          <ul>
+            <li>Equity: higher potential return, higher risk, ownership.</li>
+            <li>Debt: lower return, lower risk (usually), lending.</li>
+          </ul>
+          <h3>Related concepts</h3>
+          <p>Dividend · Coupon · Maturity · Capital structure</p>
+        `
+      },
+      {
+        id: "mutual-funds-etfs",
+        title: "Mutual Funds, ETFs & Index Funds",
+        category: "Investing",
+        level: "Core",
+        tags: ["mutual funds", "etf", "index funds"],
+        summary: "Pool of money managed professionally to invest in many securities.",
+        body: `
+          <span class="badge-inline">Investing · Core</span>
+          <h2>Mutual funds</h2>
+          <p>A mutual fund collects money from many investors and invests in a portfolio of securities according to a stated objective.</p>
+          <h2>ETFs</h2>
+          <p>An Exchange Traded Fund is like a mutual fund basket that is traded on stock exchanges like a share.</p>
+          <h2>Index funds</h2>
+          <p>Index funds aim to track a market index (like Nifty 50) instead of beating it. They are a simple way to get broad diversification.</p>
+          <h3>Related concepts</h3>
+          <p>NAV · Expense ratio · Active vs passive · SIP</p>
+        `
+      },
+      {
+        id: "sip-vs-lumpsum",
+        title: "SIP vs Lump Sum Investing",
+        category: "Investing",
+        level: "Beginner",
+        tags: ["sip", "lump sum", "rupee cost averaging"],
+        summary: "Invest regularly every month or all at once? Understand the trade-off.",
+        body: `
+          <span class="badge-inline">Investing · Beginner</span>
+          <h2>SIP (Systematic Investment Plan)</h2>
+          <p>You invest a fixed amount regularly (for example monthly) into a mutual fund. This averages the purchase price over time.</p>
+          <h2>Lump sum</h2>
+          <p>You invest a large amount at once. Returns depend more on your entry level in the market.</p>
+          <h3>Key points</h3>
+          <ul>
+            <li>SIP is helpful for salaried investors and for managing volatility.</li>
+            <li>Lump sum can make sense if you already have money and valuations are reasonable.</li>
+          </ul>
+          <h3>Related concepts</h3>
+          <p>Compounding · Volatility · Goal planning</p>
+        `
+      },
+      {
+        id: "risk-diversification",
+        title: "Risk, Volatility & Diversification",
+        category: "Investing",
+        level: "Core",
+        tags: ["risk", "diversification", "portfolio"],
+        summary: "Don’t put all your eggs in one basket.",
+        body: `
+          <span class="badge-inline">Investing · Core</span>
+          <h2>Risk & volatility</h2>
+          <p>Risk is the chance that your actual returns are different from expected. Volatility is how much your investment value moves up and down in the short term.</p>
+          <h2>Diversification</h2>
+          <p>Diversification means investing in different assets, sectors and geographies so that a problem in one area does not destroy your total wealth.</p>
+          <h3>Related concepts</h3>
+          <p>Asset allocation · Correlation · Portfolio</p>
+        `
+      },
+      {
+        id: "asset-allocation",
+        title: "Asset Allocation",
+        category: "Investing",
+        level: "Core",
+        tags: ["asset allocation", "portfolio mix"],
+        summary: "How you split your money across equity, debt, gold, etc.",
+        body: `
+          <span class="badge-inline">Investing · Core</span>
+          <h2>Simple definition</h2>
+          <p>Asset allocation is the mix of different asset classes in your portfolio – for example, how much in equity, how much in debt, how much in gold or other assets.</p>
+          <h3>Why it matters</h3>
+          <p>Asset allocation often has a bigger impact on long-term returns and risk than individual stock picking.</p>
+          <h3>Related concepts</h3>
+          <p>Risk profile · Diversification · Rebalancing</p>
+        `
+      },
+      // CORPORATE FINANCE
+      {
+        id: "balance-sheet",
+        title: "Balance Sheet",
+        category: "Corporate Finance",
+        level: "Core",
+        tags: ["financial statements", "assets", "liabilities"],
+        summary: "Shows a company’s financial position at a point in time.",
+        body: `
+          <span class="badge-inline">Corporate Finance · Core</span>
+          <h2>Simple definition</h2>
+          <p>The balance sheet shows what a company owns and owes at a specific date.</p>
+          <h3>Basic equation</h3>
+          <p>Assets = Liabilities + Equity</p>
+          <h3>Key sections</h3>
+          <ul>
+            <li><strong>Assets</strong> – cash, receivables, inventory, property, equipment, etc.</li>
+            <li><strong>Liabilities</strong> – loans, payables and other obligations.</li>
+            <li><strong>Equity</strong> – shareholders’ funds, retained earnings.</li>
+          </ul>
+          <h3>Related concepts</h3>
+          <p>Working capital · Fixed assets · Leverage</p>
+        `
+      },
+      {
+        id: "income-statement",
+        title: "Income Statement (P&L)",
+        category: "Corporate Finance",
+        level: "Core",
+        tags: ["profit", "revenue", "expenses"],
+        summary: "Shows how much a company earned and spent over a period.",
+        body: `
+          <span class="badge-inline">Corporate Finance · Core</span>
+          <h2>Simple definition</h2>
+          <p>The income statement (profit and loss account) summarises the company’s revenues, expenses and profit over a period (quarter or year).</p>
+          <h3>Basic structure</h3>
+          <ul>
+            <li>Revenue (sales)</li>
+            <li>– Cost of goods sold = Gross profit</li>
+            <li>– Operating expenses = Operating profit (EBIT)</li>
+            <li>– Interest and tax = Net profit (PAT)</li>
+          </ul>
+          <h3>Related concepts</h3>
+          <p>Margins · EBIT · EBITDA · PAT</p>
+        `
+      },
+      {
+        id: "cash-flow-statement",
+        title: "Cash Flow Statement",
+        category: "Corporate Finance",
+        level: "Core",
+        tags: ["cash flow", "operations", "capex"],
+        summary: "Tracks actual cash in and out of the business.",
+        body: `
+          <span class="badge-inline">Corporate Finance · Core</span>
+          <h2>Simple definition</h2>
+          <p>The cash flow statement shows how cash moved in and out of the company over a period.</p>
+          <h3>Three sections</h3>
+          <ul>
+            <li><strong>Operating</strong> – cash from day-to-day business.</li>
+            <li><strong>Investing</strong> – cash used to buy/sell assets (like equipment).</li>
+            <li><strong>Financing</strong> – cash from or to shareholders and lenders (loans, equity, dividends).</li>
+          </ul>
+          <h3>Why it matters</h3>
+          <p>A company can show accounting profits but still face trouble if cash inflows are weak.</p>
+          <h3>Related concepts</h3>
+          <p>Free cash flow · Working capital · Capital expenditure</p>
+        `
+      },
+      {
+        id: "capital-structure",
+        title: "Capital Structure (Debt vs Equity)",
+        category: "Corporate Finance",
+        level: "Core",
+        tags: ["debt", "equity", "leverage"],
+        summary: "The mix of debt and equity used to finance a company.",
+        body: `
+          <span class="badge-inline">Corporate Finance · Core</span>
+          <h2>Simple definition</h2>
+          <p>Capital structure is how a company finances itself through a combination of debt (loans, bonds) and equity (shares).</p>
+          <h3>Trade-off</h3>
+          <ul>
+            <li>Debt is cheaper but too much debt increases financial risk.</li>
+            <li>Equity is safer for the company but can be more expensive for shareholders.</li>
+          </ul>
+          <h3>Related concepts</h3>
+          <p>Leverage · Cost of capital · Interest coverage</p>
+        `
+      },
+      {
+        id: "wacc",
+        title: "Cost of Capital & WACC",
+        category: "Corporate Finance",
+        level: "Advanced",
+        tags: ["wacc", "discount rate", "valuation"],
+        summary: "The minimum return a company must earn to satisfy debt and equity holders.",
+        body: `
+          <span class="badge-inline">Corporate Finance · Advanced</span>
+          <h2>Cost of capital</h2>
+          <p>Cost of capital is the return that providers of capital (lenders and shareholders) expect. The company must at least earn this on its projects.</p>
+          <h2>WACC (Weighted Average Cost of Capital)</h2>
+          <p>WACC combines the cost of equity and cost of debt based on their proportions in the capital structure.</p>
+          <p>WACC = (E ÷ (D + E)) × k<sub>e</sub> + (D ÷ (D + E)) × k<sub>d</sub> × (1 – T)</p>
+          <p>Where E = equity, D = debt, ke = cost of equity, kd = cost of debt, T = tax rate.</p>
+          <h3>Related concepts</h3>
+          <p>DCF · CAPM · Capital structure · Discount rate</p>
+        `
+      },
+      {
+        id: "dcf-enterprise-value",
+        title: "DCF & Enterprise Value",
+        category: "Corporate Finance",
+        level: "Advanced",
+        tags: ["dcf", "enterprise value", "valuation"],
+        summary: "Value a company by discounting its future free cash flows.",
+        body: `
+          <span class="badge-inline">Corporate Finance · Advanced</span>
+          <h2>DCF (Discounted Cash Flow)</h2>
+          <p>DCF values a business by forecasting future free cash flows and discounting them back to today using WACC.</p>
+          <h3>Basic steps</h3>
+          <ul>
+            <li>Forecast future free cash flows to firm (FCFF).</li>
+            <li>Choose a discount rate (WACC).</li>
+            <li>Calculate the present value of all forecast cash flows plus a terminal value.</li>
+          </ul>
+          <h2>Enterprise Value (EV)</h2>
+          <p>EV is the value of the entire business, independent of how it is financed.</p>
+          <p>Rough formula: EV = Equity value + Debt – Cash.</p>
+          <h3>Related concepts</h3>
+          <p>Free cash flow · WACC · TVM · Multiples</p>
+        `
+      },
+      // MARKETS & ECONOMY (short versions)
+      {
+        id: "stock-exchanges-brokers",
+        title: "Stock Exchanges & Brokers",
+        category: "Markets",
+        level: "Beginner",
+        tags: ["markets", "brokers", "trading"],
+        summary: "How investors buy and sell shares through exchanges and brokers.",
+        body: `
+          <span class="badge-inline">Markets · Beginner</span>
+          <h2>Stock exchange</h2>
+          <p>A stock exchange is a regulated marketplace where buyers and sellers trade shares and other securities.</p>
+          <h2>Broker</h2>
+          <p>A broker is an intermediary who gives you access to the exchange via a trading and demat account.</p>
+          <h3>Related concepts</h3>
+          <p>Order types · Demat · Settlement</p>
+        `
+      },
+      {
+        id: "primary-vs-secondary",
+        title: "Primary vs Secondary Market",
+        category: "Markets",
+        level: "Beginner",
+        tags: ["ipo", "primary market", "secondary market"],
+        summary: "Issuing new securities vs trading existing ones.",
+        body: `
+          <span class="badge-inline">Markets · Beginner</span>
+          <h2>Primary market</h2>
+          <p>Where new securities are issued for the first time, such as in an IPO.</p>
+          <h2>Secondary market</h2>
+          <p>Where existing securities are traded between investors on the exchange.</p>
+          <h3>Related concepts</h3>
+          <p>IPO · FPO · Rights issue</p>
+        `
+      },
+      {
+        id: "gdp",
+        title: "GDP (Gross Domestic Product)",
+        category: "Economy",
+        level: "Beginner",
+        tags: ["gdp", "economy", "growth"],
+        summary: "Total value of all final goods and services produced in a country.",
+        body: `
+          <span class="badge-inline">Economy · Beginner</span>
+          <h2>Simple definition</h2>
+          <p>GDP measures the total value of all final goods and services produced within a country’s borders in a period.</p>
+          <h3>Why it matters</h3>
+          <p>It is widely used as an indicator of the size and health of an economy.</p>
+          <h3>Related concepts</h3>
+          <p>Real vs nominal GDP · Per capita GDP · Growth rate</p>
+        `
+      },
+      {
+        id: "interest-rates",
+        title: "Interest Rates",
+        category: "Economy",
+        level: "Core",
+        tags: ["interest rate", "borrowing cost"],
+        summary: "The price of borrowing money, affecting loans and investments.",
+        body: `
+          <span class="badge-inline">Economy · Core</span>
+          <h2>Simple idea</h2>
+          <p>Interest rates represent the cost of borrowing or the return on lending money. They are influenced heavily by the central bank.</p>
+          <h3>Why they matter</h3>
+          <p>Interest rates affect EMIs, fixed deposit returns, bond prices and overall economic activity.</p>
+          <h3>Related concepts</h3>
+          <p>Monetary policy · Inflation · Cost of capital</p>
+        `
+      }
+    ];
+
+    // ========= RENDERING LOGIC =========
+    const yearSpan = document.getElementById("year");
+    yearSpan.textContent = new Date().getFullYear();
+
+    const categoryNav = document.getElementById("categoryNav");
+    const conceptListEl = document.getElementById("conceptList");
+    const listSubEl = document.getElementById("listSub");
+    const detailTitleEl = document.getElementById("detailTitle");
+    const detailCategoryEl = document.getElementById("detailCategory");
+    const detailBodyEl = document.getElementById("detailBody");
+    const searchInput = document.getElementById("searchInput");
+    const searchHint = document.getElementById("searchHint");
+    const statConcepts = document.getElementById("statConcepts");
+    const statCategories = document.getElementById("statCategories");
+
+    let activeCategory = "All";
+    let activeConceptId = null;
+    let currentSearch = "";
+
+    const categories = ["All", ...Array.from(new Set(concepts.map(c => c.category)))];
+
+    function renderCategoryNav() {
+      categoryNav.innerHTML = "";
+      categories.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.textContent = cat;
+        if (cat === activeCategory) btn.classList.add("active");
+        btn.addEventListener("click", () => {
+          activeCategory = cat;
+          activeConceptId = null;
+          currentSearch = "";
+          searchInput.value = "";
+          renderCategoryNav();
+          renderConceptList();
+          resetDetail();
+        });
+        categoryNav.appendChild(btn);
+      });
+    }
+
+    function getFilteredConcepts() {
+      let filtered = concepts;
+      if (activeCategory !== "All") {
+        filtered = filtered.filter(c => c.category === activeCategory);
+      }
+      if (currentSearch.trim()) {
+        const q = currentSearch.toLowerCase();
+        filtered = filtered.filter(c => {
+          const hay = (c.title + " " + c.summary + " " + c.tags.join(" ") + " " + c.category).toLowerCase();
+          return hay.includes(q);
+        });
+      }
+      return filtered;
+    }
+
+    function renderConceptList() {
+      const filtered = getFilteredConcepts();
+      conceptListEl.innerHTML = "";
+      filtered.forEach(concept => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        if (concept.id === activeConceptId) item.classList.add("active");
+        item.dataset.id = concept.id;
+
+        const titleRow = document.createElement("div");
+        titleRow.className = "list-title-row";
+
+        const title = document.createElement("div");
+        title.className = "list-title";
+        title.textContent = concept.title;
+
+        const cat = document.createElement("div");
+        cat.className = "list-category";
+        cat.textContent = concept.category;
+
+        titleRow.appendChild(title);
+        titleRow.appendChild(cat);
+
+        const summary = document.createElement("div");
+        summary.className = "list-summary";
+        summary.textContent = concept.summary;
+
+        const tags = document.createElement("div");
+        tags.className = "list-tags";
+        concept.tags.forEach(t => {
+          const span = document.createElement("span");
+          span.className = "tag-chip";
+          span.textContent = t;
+          tags.appendChild(span);
+        });
+
+        item.appendChild(titleRow);
+        item.appendChild(summary);
+        item.appendChild(tags);
+
+        item.addEventListener("click", () => {
+          activeConceptId = concept.id;
+          renderConceptList();
+          renderDetail(concept);
+        });
+
+        conceptListEl.appendChild(item);
+      });
+
+      if (activeCategory === "All") {
+        listSubEl.textContent = `Showing ${filtered.length} concept(s) from all categories.`;
+      } else {
+        listSubEl.textContent = `Showing ${filtered.length} concept(s) in “${activeCategory}”.`;
+      }
+
+      // Stats
+      statConcepts.textContent = concepts.length;
+      statCategories.textContent = categories.length - 1;
+    }
+
+    function resetDetail() {
+      detailTitleEl.textContent = "Start by choosing a concept →";
+      detailCategoryEl.textContent = "";
+      detailBodyEl.innerHTML = `
+        <p>Pick any concept from the left list to see:</p>
+        <ul>
+          <li>A simple definition</li>
+          <li>Why it matters in real life</li>
+          <li>Easy-to-follow examples</li>
+          <li>Formulas (only when helpful)</li>
+          <li>Related concepts to explore next</li>
+        </ul>
+      `;
+    }
+
+    function renderDetail(concept) {
+      detailTitleEl.textContent = concept.title;
+      detailCategoryEl.textContent = `${concept.category} · ${concept.level}`;
+      detailBodyEl.innerHTML = concept.body;
+    }
+
+    function applySearch(value) {
+      currentSearch = value;
+      const filtered = getFilteredConcepts();
+      renderConceptList();
+      if (!value.trim()) {
+        searchHint.textContent = "🔎 Type a term above or click a category to filter the concepts.";
+      } else if (filtered.length === 0) {
+        searchHint.textContent = `😅 No concepts match “${value}” yet. Try words like "interest", "loan", or "valuation".`;
+      } else {
+        searchHint.textContent = `✅ Found ${filtered.length} concept(s) matching “${value}” in ${activeCategory === "All" ? "all categories" : activeCategory}.`;
+      }
+    }
+
+    // Initialise
+    renderCategoryNav();
+    renderConceptList();
+
+    searchInput.addEventListener("input", e => {
+      applySearch(e.target.value);
+    });
+  </script>
+</body>
+</html>
